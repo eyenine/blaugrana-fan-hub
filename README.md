@@ -1,5 +1,7 @@
 # Welcome to your Lovable project
 
+publish link:https://blaugrana-fan-hub.lovable.app/
+  
 ## Project info
 
 **URL**: https://lovable.dev/projects/f7c19815-6367-49ec-a9b0-09151f5a1d04
