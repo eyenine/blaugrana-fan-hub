@@ -9,6 +9,10 @@ import PlayerSpotlight from "@/components/PlayerSpotlight";
 import FanChat from "@/components/FanChat";
 import MatchFixtures from "@/components/MatchFixtures";
 import Navigation from "@/components/Navigation";
+import UserProfile from "@/components/UserProfile";
+import MatchPredictions from "@/components/MatchPredictions";
+import LivePolls from "@/components/LivePolls";
+import FanOfTheMonth from "@/components/FanOfTheMonth";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -54,6 +58,14 @@ const Index = () => {
         return <FanChat />;
       case "matches":
         return <MatchFixtures />;
+      case "profile":
+        return <UserProfile />;
+      case "predictions":
+        return <MatchPredictions />;
+      case "polls":
+        return <LivePolls />;
+      case "fan-of-month":
+        return <FanOfTheMonth />;
       default:
         return (
           <div className="space-y-8">
@@ -132,7 +144,7 @@ const Index = () => {
             </Card>
 
             {/* Quick Actions */}
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-4 gap-6">
               <Card className="hover:shadow-lg transition-shadow cursor-pointer border-blue-200" onClick={() => setActiveSection("players")}>
                 <CardContent className="p-6 text-center">
                   <Users className="w-12 h-12 mx-auto mb-4 text-blue-600" />
@@ -154,6 +166,14 @@ const Index = () => {
                   <Calendar className="w-12 h-12 mx-auto mb-4 text-yellow-600" />
                   <h3 className="text-xl font-bold mb-2">Match Center</h3>
                   <p className="text-gray-600">Fixtures and results</p>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-purple-200" onClick={() => setActiveSection("predictions")}>
+                <CardContent className="p-6 text-center">
+                  <Trophy className="w-12 h-12 mx-auto mb-4 text-purple-600" />
+                  <h3 className="text-xl font-bold mb-2">AI Predictions</h3>
+                  <p className="text-gray-600">Match insights & analysis</p>
                 </CardContent>
               </Card>
             </div>

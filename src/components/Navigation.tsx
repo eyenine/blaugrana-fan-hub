@@ -1,5 +1,5 @@
 
-import { Home, Users, MessageCircle, Calendar, Settings, Trophy } from "lucide-react";
+import { Home, Users, MessageCircle, Calendar, Settings, Trophy, Brain, Vote, User, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
@@ -14,6 +14,10 @@ const Navigation = ({ activeSection, setActiveSection }: NavigationProps) => {
     { id: "players", label: "Players", icon: Users },
     { id: "chat", label: "Fan Chat", icon: MessageCircle },
     { id: "matches", label: "Matches", icon: Calendar },
+    { id: "predictions", label: "Predictions", icon: Brain },
+    { id: "polls", label: "Live Polls", icon: Vote },
+    { id: "profile", label: "Profile", icon: User },
+    { id: "fan-of-month", label: "Fan Awards", icon: Crown },
   ];
 
   return (
@@ -30,12 +34,12 @@ const Navigation = ({ activeSection, setActiveSection }: NavigationProps) => {
               </span>
             </div>
             
-            <div className="hidden md:flex space-x-1">
+            <div className="hidden md:flex space-x-1 overflow-x-auto">
               {navItems.map((item) => (
                 <Button
                   key={item.id}
                   variant={activeSection === item.id ? "default" : "ghost"}
-                  className={`flex items-center space-x-2 ${
+                  className={`flex items-center space-x-2 whitespace-nowrap ${
                     activeSection === item.id 
                       ? "bg-gradient-to-r from-blue-600 to-red-600 text-white" 
                       : "hover:bg-blue-50"
