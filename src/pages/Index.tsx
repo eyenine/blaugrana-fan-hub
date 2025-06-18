@@ -3,7 +3,7 @@ import { Calendar, MessageCircle, Users, Trophy, Star, Heart, Clock, MapPin } fr
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useAuth } from "@/contexts/AuthContext";
 import PlayerSpotlight from "@/components/PlayerSpotlight";
 import FanChat from "@/components/FanChat";
 import MatchFixtures from "@/components/MatchFixtures";
@@ -14,9 +14,12 @@ import LivePolls from "@/components/LivePolls";
 import FanOfTheMonth from "@/components/FanOfTheMonth";
 import DigitalTwin from "@/components/DigitalTwin";
 import AIFanCompanion from "@/components/AIFanCompanion";
+import GuestBanner from "@/components/GuestBanner";
+import ProtectedFeature from "@/components/ProtectedFeature";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
+  const { isAuthenticated, user } = useAuth();
 
   const stats = [
     { label: "Global Culers", value: "400M+", icon: Users },
@@ -56,24 +59,54 @@ const Index = () => {
       case "players":
         return <PlayerSpotlight />;
       case "chat":
-        return <FanChat />;
+        return (
+          <ProtectedFeature featureName="Fan Chat" description="Join live discussions with fellow Culers during matches">
+            <FanChat />
+          </ProtectedFeature>
+        );
       case "matches":
         return <MatchFixtures />;
       case "profile":
-        return <UserProfile />;
+        return (
+          <ProtectedFeature featureName="User Profile" description="Manage your fan profile and track your Barça journey">
+            <UserProfile />
+          </ProtectedFeature>
+        );
       case "predictions":
-        return <MatchPredictions />;
+        return (
+          <ProtectedFeature featureName="Match Predictions" description="Use AI insights to predict match outcomes and compete with other fans">
+            <MatchPredictions />
+          </ProtectedFeature>
+        );
       case "polls":
-        return <LivePolls />;
+        return (
+          <ProtectedFeature featureName="Live Polls" description="Participate in real-time polls during matches">
+            <LivePolls />
+          </ProtectedFeature>
+        );
       case "digital-twin":
-        return <DigitalTwin />;
+        return (
+          <ProtectedFeature featureName="Digital Twin" description="Experience the virtual Camp Nou with real-time atmosphere">
+            <DigitalTwin />
+          </ProtectedFeature>
+        );
       case "ai-companion":
-        return <AIFanCompanion />;
+        return (
+          <ProtectedFeature featureName="AI Companion" description="Get personalized insights and emotional support from your AI fan companion">
+            <AIFanCompanion />
+          </ProtectedFeature>
+        );
       case "fan-of-month":
-        return <FanOfTheMonth />;
+        return (
+          <ProtectedFeature featureName="Fan Awards" description="Compete for monthly recognition and exclusive rewards">
+            <FanOfTheMonth />
+          </ProtectedFeature>
+        );
       default:
         return (
           <div className="space-y-8">
+            {!isAuthenticated && <GuestBanner />}
+            
             {/* Hero Section */}
             <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-900 via-blue-800 to-red-600 p-8 text-white">
               <div className="absolute inset-0 bg-[url('/placeholder.svg')] opacity-10 bg-cover bg-center"></div>
@@ -82,7 +115,12 @@ const Index = () => {
                   <h1 className="text-5xl font-bold mb-2 bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent">
                     BarçaVerse
                   </h1>
-                  <p className="text-xl opacity-90">Més que un club. More than digital.</p>
+                  <p className="text-xl opacity-90">
+                    {isAuthenticated && user 
+                      ? `Welcome back, ${user.username}! Visca el Barça!` 
+                      : "Més que un club. More than digital."
+                    }
+                  </p>
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -163,6 +201,7 @@ const Index = () => {
                   <MessageCircle className="w-12 h-12 mx-auto mb-4 text-red-600" />
                   <h3 className="text-xl font-bold mb-2">Fan Chat</h3>
                   <p className="text-gray-600">Connect with fellow Culers</p>
+                  {!isAuthenticated && <Badge className="mt-2">🔒 Login Required</Badge>}
                 </CardContent>
               </Card>
               
@@ -179,6 +218,7 @@ const Index = () => {
                   <Trophy className="w-12 h-12 mx-auto mb-4 text-purple-600" />
                   <h3 className="text-xl font-bold mb-2">AI Predictions</h3>
                   <p className="text-gray-600">Match insights & analysis</p>
+                  {!isAuthenticated && <Badge className="mt-2">🔒 Login Required</Badge>}
                 </CardContent>
               </Card>
             </div>
