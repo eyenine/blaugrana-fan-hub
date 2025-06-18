@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar, MessageCircle, Users, Trophy, Star, Heart, Clock, MapPin } from "lucide-react";
+import { Calendar, MessageCircle, Users, Trophy, Star, Heart, Clock, MapPin, Zap, Globe, ShoppingCart, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +16,11 @@ import DigitalTwin from "@/components/DigitalTwin";
 import AIFanCompanion from "@/components/AIFanCompanion";
 import GuestBanner from "@/components/GuestBanner";
 import ProtectedFeature from "@/components/ProtectedFeature";
+import LiveMatchData from "@/components/LiveMatchData";
+import NotificationCenter from "@/components/NotificationCenter";
+import SocialHub from "@/components/SocialHub";
+import MerchandiseStore from "@/components/MerchandiseStore";
+import FanInsights from "@/components/FanInsights";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -56,6 +61,8 @@ const Index = () => {
 
   const renderContent = () => {
     switch (activeSection) {
+      case "live-match":
+        return <LiveMatchData />;
       case "players":
         return <PlayerSpotlight />;
       case "chat":
@@ -82,6 +89,26 @@ const Index = () => {
         return (
           <ProtectedFeature featureName="Live Polls" description="Participate in real-time polls during matches">
             <LivePolls />
+          </ProtectedFeature>
+        );
+      case "social-hub":
+        return (
+          <ProtectedFeature featureName="Social Hub" description="Connect with the global Barça community on social media">
+            <SocialHub />
+          </ProtectedFeature>
+        );
+      case "store":
+        return <MerchandiseStore />;
+      case "insights":
+        return (
+          <ProtectedFeature featureName="Fan Insights" description="View your personalized stats and achievements">
+            <FanInsights />
+          </ProtectedFeature>
+        );
+      case "notifications":
+        return (
+          <ProtectedFeature featureName="Notification Center" description="Manage your live updates and alerts">
+            <NotificationCenter />
           </ProtectedFeature>
         );
       case "digital-twin":
@@ -186,38 +213,38 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            {/* Quick Actions */}
+            {/* Enhanced Quick Actions */}
             <div className="grid md:grid-cols-4 gap-6">
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-blue-200" onClick={() => setActiveSection("players")}>
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-blue-200" onClick={() => setActiveSection("live-match")}>
                 <CardContent className="p-6 text-center">
-                  <Users className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                  <h3 className="text-xl font-bold mb-2">Player Profiles</h3>
-                  <p className="text-gray-600">Explore our amazing squad</p>
+                  <Zap className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+                  <h3 className="text-xl font-bold mb-2">Live Match</h3>
+                  <p className="text-gray-600">Real-time updates & fan reactions</p>
                 </CardContent>
               </Card>
               
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-red-200" onClick={() => setActiveSection("chat")}>
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-red-200" onClick={() => setActiveSection("social-hub")}>
                 <CardContent className="p-6 text-center">
-                  <MessageCircle className="w-12 h-12 mx-auto mb-4 text-red-600" />
-                  <h3 className="text-xl font-bold mb-2">Fan Chat</h3>
-                  <p className="text-gray-600">Connect with fellow Culers</p>
+                  <Globe className="w-12 h-12 mx-auto mb-4 text-red-600" />
+                  <h3 className="text-xl font-bold mb-2">Social Hub</h3>
+                  <p className="text-gray-600">Connect with global fan community</p>
                   {!isAuthenticated && <Badge className="mt-2">🔒 Login Required</Badge>}
                 </CardContent>
               </Card>
               
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-yellow-200" onClick={() => setActiveSection("matches")}>
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-yellow-200" onClick={() => setActiveSection("store")}>
                 <CardContent className="p-6 text-center">
-                  <Calendar className="w-12 h-12 mx-auto mb-4 text-yellow-600" />
-                  <h3 className="text-xl font-bold mb-2">Match Center</h3>
-                  <p className="text-gray-600">Fixtures and results</p>
+                  <ShoppingCart className="w-12 h-12 mx-auto mb-4 text-yellow-600" />
+                  <h3 className="text-xl font-bold mb-2">Official Store</h3>
+                  <p className="text-gray-600">Exclusive gear with XP discounts</p>
                 </CardContent>
               </Card>
 
-              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-purple-200" onClick={() => setActiveSection("predictions")}>
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer border-purple-200" onClick={() => setActiveSection("insights")}>
                 <CardContent className="p-6 text-center">
-                  <Trophy className="w-12 h-12 mx-auto mb-4 text-purple-600" />
-                  <h3 className="text-xl font-bold mb-2">AI Predictions</h3>
-                  <p className="text-gray-600">Match insights & analysis</p>
+                  <TrendingUp className="w-12 h-12 mx-auto mb-4 text-purple-600" />
+                  <h3 className="text-xl font-bold mb-2">Fan Insights</h3>
+                  <p className="text-gray-600">Your Barça journey in numbers</p>
                   {!isAuthenticated && <Badge className="mt-2">🔒 Login Required</Badge>}
                 </CardContent>
               </Card>

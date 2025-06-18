@@ -1,128 +1,204 @@
 
-import { useState } from "react";
-import { Home, Users, MessageCircle, Calendar, Settings, Trophy, Brain, Vote, User, Crown, Zap, Bot, LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@/contexts/AuthContext";
-import AuthModal from "./AuthModal";
+import React, { useState } from 'react';
+import { Menu, X, Home, Users, MessageCircle, Calendar, Trophy, User, Bell, ShoppingCart, TrendingUp, Globe, Zap, Brain, MapPin } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/contexts/AuthContext';
+import AuthModal from './AuthModal';
 
 interface NavigationProps {
   activeSection: string;
   setActiveSection: (section: string) => void;
 }
 
-const Navigation = ({ activeSection, setActiveSection }: NavigationProps) => {
-  const { user, isAuthenticated, logout } = useAuth();
+const Navigation: React.FC<NavigationProps> = ({ activeSection, setActiveSection }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
 
-  const navItems = [
-    { id: "home", label: "Home", icon: Home },
-    { id: "players", label: "Players", icon: Users },
-    { id: "chat", label: "Fan Chat", icon: MessageCircle, protected: true },
-    { id: "matches", label: "Matches", icon: Calendar },
-    { id: "predictions", label: "Predictions", icon: Brain, protected: true },
-    { id: "polls", label: "Live Polls", icon: Vote, protected: true },
-    { id: "digital-twin", label: "Digital Twin", icon: Zap, protected: true },
-    { id: "ai-companion", label: "AI Companion", icon: Bot, protected: true },
-    { id: "profile", label: "Profile", icon: User, protected: true },
-    { id: "fan-of-month", label: "Fan Awards", icon: Crown, protected: true },
+  const navigationItems = [
+    { id: 'home', label: 'Home', icon: Home, protected: false },
+    { id: 'live-match', label: 'Live Match', icon: Zap, protected: false },
+    { id: 'players', label: 'Players', icon: Users, protected: false },
+    { id: 'matches', label: 'Fixtures', icon: Calendar, protected: false },
+    { id: 'chat', label: 'Fan Chat', icon: MessageCircle, protected: true },
+    { id: 'predictions', label: 'AI Predictions', icon: Brain, protected: true },
+    { id: 'polls', label: 'Live Polls', icon: Trophy, protected: true },
+    { id: 'social-hub', label: 'Social Hub', icon: Globe, protected: true },
+    { id: 'store', label: 'Store', icon: ShoppingCart, protected: false },
+    { id: 'insights', label: 'Fan Insights', icon: TrendingUp, protected: true },
+    { id: 'notifications', label: 'Notifications', icon: Bell, protected: true },
+    { id: 'digital-twin', label: 'Virtual Camp Nou', icon: MapPin, protected: true },
+    { id: 'ai-companion', label: 'AI Companion', icon: Brain, protected: true },
+    { id: 'fan-of-month', label: 'Fan Awards', icon: Trophy, protected: true },
   ];
 
-  const handleNavClick = (itemId: string, isProtected?: boolean) => {
+  const handleNavigation = (sectionId: string, isProtected: boolean) => {
     if (isProtected && !isAuthenticated) {
       setIsAuthModalOpen(true);
       return;
     }
-    setActiveSection(itemId);
+    setActiveSection(sectionId);
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setActiveSection('home');
   };
 
   return (
     <>
-      <nav className="bg-white shadow-lg border-b-4 border-gradient-to-r from-blue-600 to-red-600">
+      <nav className="bg-gradient-to-r from-blue-900 via-blue-800 to-red-600 text-white shadow-lg sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-red-600 rounded-full flex items-center justify-center">
-                  <Trophy className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">
-                  BarçaVerse
-                </span>
+            {/* Logo */}
+            <div 
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => setActiveSection('home')}
+            >
+              <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
+                <span className="text-blue-900 font-bold text-xl">B</span>
               </div>
-              
-              <div className="hidden md:flex space-x-1 overflow-x-auto">
-                {navItems.map((item) => (
-                  <Button
-                    key={item.id}
-                    variant={activeSection === item.id ? "default" : "ghost"}
-                    className={`flex items-center space-x-2 whitespace-nowrap text-xs px-2 py-1 h-8 ${
-                      activeSection === item.id 
-                        ? "bg-gradient-to-r from-blue-600 to-red-600 text-white" 
-                        : "hover:bg-blue-50"
-                    } ${item.protected && !isAuthenticated ? "opacity-60" : ""}`}
-                    onClick={() => handleNavClick(item.id, item.protected)}
-                  >
-                    <item.icon className="w-3 h-3" />
-                    <span className="hidden lg:inline">{item.label}</span>
-                    {item.protected && !isAuthenticated && (
-                      <Badge variant="secondary" className="text-xs px-1 py-0">🔒</Badge>
-                    )}
-                  </Button>
-                ))}
+              <div>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent">
+                  BarçaVerse
+                </h1>
+                <p className="text-xs opacity-80">Digital Camp Nou</p>
               </div>
             </div>
-            
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-1">
+              {navigationItems.slice(0, 8).map((item) => (
+                <Button
+                  key={item.id}
+                  variant={activeSection === item.id ? "secondary" : "ghost"}
+                  size="sm"
+                  className={`text-white hover:bg-white/20 ${
+                    activeSection === item.id ? 'bg-white/20' : ''
+                  }`}
+                  onClick={() => handleNavigation(item.id, item.protected)}
+                >
+                  <item.icon className="w-4 h-4 mr-2" />
+                  {item.label}
+                  {item.protected && !isAuthenticated && (
+                    <Badge className="ml-2 bg-yellow-500 text-black text-xs">🔒</Badge>
+                  )}
+                </Button>
+              ))}
+            </div>
+
+            {/* User Section */}
             <div className="flex items-center space-x-4">
               {isAuthenticated && user ? (
-                <>
+                <div className="hidden md:flex items-center space-x-3">
                   <div className="text-right">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-semibold">{user.username}</p>
-                      <Badge className="bg-gradient-to-r from-blue-600 to-red-600 text-white">
-                        Lvl {user.fan_level}
-                      </Badge>
+                    <div className="text-sm font-semibold">{user.username}</div>
+                    <div className="text-xs opacity-80 flex items-center gap-1">
+                      <Trophy className="w-3 h-3" />
+                      Level {user.fan_level} • {user.xp} XP
                     </div>
-                    <p className="text-xs text-gray-600">{user.xp} XP • Culer since {new Date(user.created_at).getFullYear()}</p>
                   </div>
-                  <Avatar className="cursor-pointer" onClick={() => setActiveSection('profile')}>
-                    <AvatarImage src={user.avatar_url} />
-                    <AvatarFallback className="bg-gradient-to-br from-blue-600 to-red-600 text-white">
-                      {user.username.slice(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={logout}
-                    className="text-gray-600 hover:text-red-600"
+                    className="text-white hover:bg-white/20"
+                    onClick={() => setActiveSection('profile')}
                   >
-                    <LogOut className="w-4 h-4" />
+                    <User className="w-4 h-4" />
                   </Button>
-                </>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-white hover:bg-white/20"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </div>
               ) : (
-                <>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold">Guest Visitor</p>
-                    <p className="text-xs text-gray-600">Browsing Camp Nou</p>
-                  </div>
-                  <Button 
-                    onClick={() => setIsAuthModalOpen(true)}
-                    className="bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white"
-                  >
-                    Join BarçaVerse
-                  </Button>
-                </>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setIsAuthModalOpen(true)}
+                  className="hidden md:flex"
+                >
+                  Sign In
+                </Button>
               )}
+
+              {/* Mobile Menu Button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="lg:hidden text-white hover:bg-white/20"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </Button>
             </div>
           </div>
+
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+            <div className="lg:hidden bg-blue-800 border-t border-blue-700">
+              <div className="px-4 py-4 space-y-2">
+                {navigationItems.map((item) => (
+                  <Button
+                    key={item.id}
+                    variant={activeSection === item.id ? "secondary" : "ghost"}
+                    className={`w-full justify-start text-white hover:bg-white/20 ${
+                      activeSection === item.id ? 'bg-white/20' : ''
+                    }`}
+                    onClick={() => handleNavigation(item.id, item.protected)}
+                  >
+                    <item.icon className="w-4 h-4 mr-3" />
+                    {item.label}
+                    {item.protected && !isAuthenticated && (
+                      <Badge className="ml-auto bg-yellow-500 text-black text-xs">🔒</Badge>
+                    )}
+                  </Button>
+                ))}
+                
+                {!isAuthenticated && (
+                  <Button
+                    variant="secondary"
+                    className="w-full mt-4"
+                    onClick={() => {
+                      setIsAuthModalOpen(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    Sign In to Unlock All Features
+                  </Button>
+                )}
+                
+                {isAuthenticated && (
+                  <div className="pt-4 border-t border-blue-700">
+                    <div className="text-sm text-center mb-3">
+                      <div className="font-semibold">{user?.username}</div>
+                      <div className="opacity-80">Level {user?.fan_level} • {user?.xp} XP</div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
       <AuthModal 
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
+        initialMode="login"
       />
     </>
   );
