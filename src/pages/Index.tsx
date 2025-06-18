@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Calendar, MessageCircle, Users, Trophy, Star, Heart, Clock, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +12,8 @@ import UserProfile from "@/components/UserProfile";
 import MatchPredictions from "@/components/MatchPredictions";
 import LivePolls from "@/components/LivePolls";
 import FanOfTheMonth from "@/components/FanOfTheMonth";
+import DigitalTwin from "@/components/DigitalTwin";
+import AIFanCompanion from "@/components/AIFanCompanion";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -64,6 +65,10 @@ const Index = () => {
         return <MatchPredictions />;
       case "polls":
         return <LivePolls />;
+      case "digital-twin":
+        return <DigitalTwin />;
+      case "ai-companion":
+        return <AIFanCompanion />;
       case "fan-of-month":
         return <FanOfTheMonth />;
       default:

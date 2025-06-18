@@ -104,7 +104,7 @@ const LivePolls = () => {
                         variant={votes[poll.id] === option.id ? "default" : "outline"}
                         size="sm"
                         onClick={() => handleVote(poll.id, option.id)}
-                        disabled={!poll.isLive || votes[poll.id]}
+                        disabled={!poll.isLive || Boolean(votes[poll.id])}
                         className={votes[poll.id] === option.id ? "bg-blue-600" : ""}
                       >
                         {votes[poll.id] === option.id ? "✓" : "Vote"}

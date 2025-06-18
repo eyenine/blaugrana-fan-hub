@@ -1,5 +1,5 @@
 
-import { Home, Users, MessageCircle, Calendar, Settings, Trophy, Brain, Vote, User, Crown } from "lucide-react";
+import { Home, Users, MessageCircle, Calendar, Settings, Trophy, Brain, Vote, User, Crown, Zap, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
@@ -16,6 +16,8 @@ const Navigation = ({ activeSection, setActiveSection }: NavigationProps) => {
     { id: "matches", label: "Matches", icon: Calendar },
     { id: "predictions", label: "Predictions", icon: Brain },
     { id: "polls", label: "Live Polls", icon: Vote },
+    { id: "digital-twin", label: "Digital Twin", icon: Zap },
+    { id: "ai-companion", label: "AI Companion", icon: Bot },
     { id: "profile", label: "Profile", icon: User },
     { id: "fan-of-month", label: "Fan Awards", icon: Crown },
   ];
@@ -39,15 +41,15 @@ const Navigation = ({ activeSection, setActiveSection }: NavigationProps) => {
                 <Button
                   key={item.id}
                   variant={activeSection === item.id ? "default" : "ghost"}
-                  className={`flex items-center space-x-2 whitespace-nowrap ${
+                  className={`flex items-center space-x-2 whitespace-nowrap text-xs px-2 py-1 h-8 ${
                     activeSection === item.id 
                       ? "bg-gradient-to-r from-blue-600 to-red-600 text-white" 
                       : "hover:bg-blue-50"
                   }`}
                   onClick={() => setActiveSection(item.id)}
                 >
-                  <item.icon className="w-4 h-4" />
-                  <span>{item.label}</span>
+                  <item.icon className="w-3 h-3" />
+                  <span className="hidden lg:inline">{item.label}</span>
                 </Button>
               ))}
             </div>
