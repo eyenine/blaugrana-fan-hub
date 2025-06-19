@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Calendar, MessageCircle, Users, Trophy, Star, Heart, Clock, MapPin, Zap, Globe, ShoppingCart, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +16,7 @@ import FanOfTheMonth from "@/components/FanOfTheMonth";
 import DigitalTwin from "@/components/DigitalTwin";
 import AIFanCompanion from "@/components/AIFanCompanion";
 import GuestBanner from "@/components/GuestBanner";
+import VerificationBanner from "@/components/VerificationBanner";
 import ProtectedFeature from "@/components/ProtectedFeature";
 import LiveMatchData from "@/components/LiveMatchData";
 import NotificationCenter from "@/components/NotificationCenter";
